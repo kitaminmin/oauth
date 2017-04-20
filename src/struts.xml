@@ -15,11 +15,9 @@
 		</action>
 
 		<!-- twitter認証のコールバックアクション -->
-<!-- 		<action name="LoginTwitterAction" class="com.internousdev.oauth.action.LoginTwitterAction" -->
-<!-- 			method="execute"> -->
-<!-- 			<result name="success">success.jsp</result> -->
-<!-- 			<result name="error">index.jsp</result> -->
-<!-- 		</action> -->
-
+		<action name="LoginTwitterAction" class="com.internousdev.cetus.action.LoginTwitterAction" method="execute">
+			<result name="success">success.jsp</result>
+			<result name="error">login.jsp</result>
+        </action>
 	</package>
 </struts>
