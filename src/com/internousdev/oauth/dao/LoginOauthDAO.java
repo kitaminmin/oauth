@@ -33,6 +33,7 @@ public class LoginOauthDAO {
 			System.out.println(sql);
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, userUniqueId);
+			System.out.println(userUniqueId);
 			stmt.setInt(2, oauthName);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
