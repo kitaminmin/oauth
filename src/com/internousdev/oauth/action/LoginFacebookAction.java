@@ -15,57 +15,49 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.internousdev.oauth.dao.LoginOauthDAO;
 import com.internousdev.oauth.dto.UsersDTO;
 import com.internousdev.oauth.util.Definition;
-import com.internousdev.oauth.util.LoginUtil;
-import com.internousdev.oauth.util.TwitterOauth;
+import com.internousdev.oauth.util.FacebookOauth;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * @author internous
  *
  */
+public class LoginFacebookAction extends ActionSupport
+		implements SessionAware, ServletResponseAware, ServletRequestAware {
 
-public class LoginTwitterAction extends ActionSupport
-		implements ServletResponseAware, ServletRequestAware, SessionAware {
+	static final int NETWORK_NAME = Definition.NETWORK_NAME_FACEBOOK;
 
-	static final int NETWORK_NAME = Definition.NETWORK_NAME_TWITTER;
-
-	public Map<String, Object> session;
+	private HttpServletRequest request;
 
 	private HttpServletResponse response;
 
-	private HttpServletRequest request;
+	private Map<String, Object> session;
 
 	private String errorMsg;
 
 	public String execute() {
-
 		String rtn = ERROR;
-		TwitterOauth twitterOauth = new TwitterOauth();
-		String[] userData = new String[2];
-		userData = twitterOauth.getAccessToken(request, response);
+		FacebookOauth oauth = new FacebookOauth();
+		Map<String, String> userMap = null;
+		userMap = oauth.getAccessToken(request, response);
 
-
-		if (userData == null) {
+		if (userMap == null) {
 			return rtn;
 		}
 
-		String uniqueId = userData[0];
-		String userName = userData[1];
+		String uniqueId = userMap.get("id");
+		String userName = userMap.get("name");
 		LoginOauthDAO dao = new LoginOauthDAO();
-		LoginUtil login = new LoginUtil();
 
-		//DBにtwitterユーザーの情報が登録されていた場合
 		if (dao.select(uniqueId, NETWORK_NAME)) {
 
 			int count = dao.update(uniqueId);
-			if(count == 0) {
+			if (count == 0) {
 				return rtn;
 			}
-
 			UsersDTO dto = dao.getUsersDTO();
-
-			errorMsg = login.validate(dto, session);
-			if(errorMsg != null) {
+			if (dto.isLoginFlg() == true) {
+				errorMsg = "このユーザーは既にログインしています。多重ログインはできません。";
 				return rtn;
 			}
 
@@ -74,37 +66,33 @@ public class LoginTwitterAction extends ActionSupport
 			rtn = SUCCESS;
 			return rtn;
 		}
-
-		//ユーザー情報を新しくDBに登録する
 		boolean result = dao.insert(uniqueId, userName, NETWORK_NAME);
 		if (!result) {
 			return rtn;
 		}
-
-		//登録したユーザーデータを改めて取得する
 		dao.select(uniqueId, NETWORK_NAME);
 		UsersDTO dto = dao.getUsersDTO();
 
 		session.put("userId", dto.getUserId());
 		session.put("loginFlg", dto.isLoginFlg());
 		rtn = SUCCESS;
-
 		return rtn;
-	}
-	public void setServletResponse(HttpServletResponse response) {
-		this.response = response;
 	}
 
 	public void setServletRequest(HttpServletRequest request) {
 		this.request = request;
 	}
 
-	public void setSession(Map<String, Object> session) {
-		this.session = session;
+	public void setServletResponse(HttpServletResponse response) {
+		this.response = response;
 	}
 
 	public Map<String, Object> getSession() {
 		return session;
+	}
+
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
 	}
 
 	public String getErrorMsg() {
@@ -114,4 +102,5 @@ public class LoginTwitterAction extends ActionSupport
 	public void setErrorMsg(String errorMsg) {
 		this.errorMsg = errorMsg;
 	}
+
 }
