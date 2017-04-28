@@ -27,10 +27,12 @@ public class LoginOauthDAO {
 		System.out.println("接続OK");
 		boolean result = false;
 		con = db.getConnection();
-
+		System.out.println(userUniqueId);
+		System.out.println(oauthName);
 		try {
 			String sql = "SELECT * FROM users WHERE oauth_id = ? AND oauth_name = ?";
 			System.out.println(sql);
+
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, userUniqueId);
 			System.out.println(userUniqueId);

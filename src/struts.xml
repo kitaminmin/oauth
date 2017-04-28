@@ -7,33 +7,47 @@
 	<constant name="struts.devMode" value="simple" />
 	<package name="user" namespace="/" extends="struts-default">
 
-	<!--twitter認証を行うアクション -->
-	<action name="GoTwitterAction" class="com.internousdev.oauth.action.TwitterAction"
-		method="execute">
-		<result name="success">index.jsp</result>
-		<result name="error">index.jsp</result>
-	</action>
+		<!--twitter認証を行うアクション -->
+		<action name="GoTwitterAction" class="com.internousdev.oauth.action.TwitterAction"
+			method="execute">
+			<result name="success">index.jsp</result>
+			<result name="error">index.jsp</result>
+		</action>
 
-	<!-- twitter認証のコールバックアクション -->
-	<action name="LoginTwitterAction" class="com.internousdev.oauth.action.LoginTwitterAction"
-		method="execute">
-		<result name="success">success.jsp</result>
-		<result name="error">login.jsp</result>
-	</action>
+		<!-- twitter認証のコールバックアクション -->
+		<action name="LoginTwitterAction" class="com.internousdev.oauth.action.LoginTwitterAction"
+			method="execute">
+			<result name="success">success.jsp</result>
+			<result name="error">login.jsp</result>
+		</action>
 
-	<!-- Facebook認証を行うアクション -->
-	<action name="GoFacebookAction" class="com.internousdev.oauth.action.GoFacebookAction"
-		method="execute">
-		<result name="success">index.jsp</result>
-		<result name="error">index.jsp</result>
-	</action>
+		<!-- Facebook認証を行うアクション -->
+		<action name="GoFacebookAction" class="com.internousdev.oauth.action.GoFacebookAction"
+			method="execute">
+			<result name="success">index.jsp</result>
+			<result name="error">index.jsp</result>
+		</action>
 
-	<!-- Facebook認証のコールバックアクション -->
-	<action name="LoginFacebookAction" class="com.internousdev.oauth.action.LoginFacebookAction"
-		method="execute">
-		<result name="success">success.jsp</result>
-		<result name="error">index.jsp</result>
-	</action>
+		<!-- Facebook認証のコールバックアクション -->
+		<action name="LoginFacebookAction"
+			class="com.internousdev.oauth.action.LoginFacebookAction" method="execute">
+			<result name="success">success.jsp</result>
+			<result name="error">index.jsp</result>
+		</action>
+
+		<!-- Google認証を行うアクション -->
+		<action name="GoGoogleAction" class="com.internousdev.oauth.action.GoGoogleAction"
+			method="execute">
+			<result name="success">index.jsp</result>
+			<result name="error">index.jsp</result>
+		</action>
+
+		<!-- Google認証のコールバックアクション -->
+		<action name="CallbackURLのAction名" class="com.internousdev.oauth.action.LoginGoogleAction"
+			method="execute">
+			<result name="success">success.jsp</result>
+			<result name="error">index.jsp</result>
+		</action>
 
 
 	</package>

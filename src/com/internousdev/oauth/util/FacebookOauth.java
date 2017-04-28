@@ -23,7 +23,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import facebook4j.Facebook;
 import facebook4j.FacebookFactory;
 import facebook4j.auth.AccessToken;
-
 /**
  * @author internous
  *

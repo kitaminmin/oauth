@@ -17,6 +17,9 @@
 			<th><s:form action="GoFacebookAction">
 					<input type="image" src="./img/facebook.png" />
 				</s:form></th>
+				<th><s:form action="GoGoogleAction">
+					<input type="image" src="./img/google.jpg" />
+				</s:form></th>
 		</tr>
 	</table>
 </body>
